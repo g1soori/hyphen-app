@@ -36,7 +36,7 @@ jobs:
       #   run: echo ${{ steps.docker_build.outputs.digest }}
       -
         name: Build the docker image
-        run: docker build -f ${GITHUB_WORKSPACE}/Dockerfile
+        run: docker build . --file ${GITHUB_WORKSPACE}/Dockerfile
       - 
         name: List docker images
         run: docker image ls
