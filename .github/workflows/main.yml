@@ -43,7 +43,7 @@ jobs:
         shell: bash
       -
         name: Build the docker image
-        run: docker buildx build . 
+        run: docker buildx build . --tag jeewan/hyphen
       - 
         name: List docker images
         run: docker image ls
