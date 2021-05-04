@@ -21,9 +21,9 @@ def get_hit_count():
 
 @web.route('/')
 def hit():
-    count = get_hit_count()
-    return 'This is the %i accessed this site since startup.\n' % int(count)
-
+#    count = get_hit_count()
+#    return 'This is the %i accessed this site since startup.\n' % int(count)
+    return 'This is the accessed this site since startup.\n' % int(count)
 
 if __name__ == "__main__":
     web.run(host="0.0.0.0", debug=True)
