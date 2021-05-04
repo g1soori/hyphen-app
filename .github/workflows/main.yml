@@ -60,4 +60,3 @@ jobs:
       - 
         name: Test the image
         run: curl -sS localhost:50000/api/tasks
-#
