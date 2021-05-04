@@ -46,13 +46,16 @@ jobs:
         run: docker buildx build . --tag jeewan/hyphen --load
       -
         name: Run the app
-        run: docker run -d -p 5000:5000 jeewan/hyphen
+        run: docker run -d -p 5000:50000 jeewan/hyphen
       - 
         name: List running image
         run: docker ps
       - 
         name: List docker images
         run: docker image ls
+      -
+        name: Running ports
+        run: netstat -tnlp
       - 
         name: Test the image
-        run: curl localhost:5000
+        run: curl localhost:50000
