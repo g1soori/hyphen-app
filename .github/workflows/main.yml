@@ -46,7 +46,7 @@ jobs:
         run: docker buildx build . --tag jeewan/hyphen --load
       -
         name: Run the app
-        run: docker start jeewan/hyphen
+        run: docker start hyphen
       - 
         name: List running image
         run: docker ps
