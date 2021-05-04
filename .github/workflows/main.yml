@@ -45,5 +45,8 @@ jobs:
         name: Build the docker image
         run: docker buildx build . --tag jeewan/hyphen --load
       - 
+        name: List running image
+        run: docker ls
+      - 
         name: List docker images
         run: docker image ls
