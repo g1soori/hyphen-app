@@ -58,4 +58,4 @@ jobs:
         run: netstat -tnlp
       - 
         name: Test the image
-        run: curl localhost:50000
+        run: curl localhost:50000/api/tasks
