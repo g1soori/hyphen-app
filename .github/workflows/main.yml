@@ -3,12 +3,8 @@ name: ci
 
 on:
   push:
-    branches:
-      - '**'
   pull_request:
-    branches: [ master ]
-    types:
-      - created
+
 jobs:
   docker:
     runs-on: ubuntu-latest
