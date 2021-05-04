@@ -23,7 +23,7 @@ def get_hit_count():
 def hit():
 #    count = get_hit_count()
 #    return 'This is the %i accessed this site since startup.\n' % int(count)
-    return 'This is the accessed this site since startup.\n' % int(count)
+    return 'This is the accessed this site since startup.\n' 
 
 if __name__ == "__main__":
     web.run(host="0.0.0.0", debug=True)
