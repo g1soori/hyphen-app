@@ -53,3 +53,6 @@ jobs:
       - 
         name: List docker images
         run: docker image ls
+      - 
+        name: Test the image
+        run: curl localhost
