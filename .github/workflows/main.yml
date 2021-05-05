@@ -59,7 +59,7 @@ jobs:
         # uses: actions/github-script@v4
         id: curl-result
         # run: curl -sS localhost:50000/api/tasks
-        run: echo "::set-output name=test-result::$(curl -sS localhost:50000/api/tasks)"
+        run: echo "::set-output name=test-result::BAR)"
         # with:
           
         #   result-encoding: string
