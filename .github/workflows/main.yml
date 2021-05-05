@@ -67,7 +67,7 @@ jobs:
       - name: display output
         run: echo $foo
         env:
-          foo: ${{ steps.curl-test.outputs.foo }}
+          foo: ${{ steps.curl-result.outputs.foo }}
 
       - name: 'Comment PR'
         uses: unsplash/comment-on-pr@master
