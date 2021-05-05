@@ -96,5 +96,5 @@ jobs:
       run: |
        echo $VAR1
         
-      env:
-        VAR1: ${{ steps.step1.outputs.VAR1 }}
+      # env:
+      #   VAR1: ${{ steps.step1.outputs.VAR1 }}
