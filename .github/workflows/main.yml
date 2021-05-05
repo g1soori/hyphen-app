@@ -46,6 +46,15 @@ jobs:
         name: Run the app
         run: docker run -d -p 50000:5000 jeewan/hyphen
       - 
+        name: List running image
+        run: docker ps
+      - 
+        name: List docker images
+        run: docker image ls
+      -
+        name: Running ports
+        run: netstat -tnlp
+      - 
         name: Test the image
         id: curl-result
         run: echo "::set-output name=foo::$(curl -sS localhost:50000/api/tasks)"
