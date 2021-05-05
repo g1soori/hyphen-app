@@ -60,19 +60,19 @@ jobs:
         id: curl-result
         # run: curl -sS localhost:50000/api/tasks
         # run: echo "::set-output name=test-result::BAR)"
-        run:  echo "##[set-output name=result;]$(hostname)"
+        run:  echo "##[set-output name=foo;]$(hostname)"
         # with:
           
         #   result-encoding: string
 
       - name: display output
-        run: echo "${{ steps.curl-test.outputs.result }}"
+        run: echo "${{ steps.curl-test.outputs.foo }}"
 
       - name: 'Comment PR'
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: '${{ steps.curl-test.outputs.result }}'
+          msg: '${{ steps.curl-test.outputs.foo }}'
 #          message: "${{steps.test-result.outputs.result}}"
 #
