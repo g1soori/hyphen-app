@@ -64,6 +64,9 @@ jobs:
           
         #   result-encoding: string
 
+      - name: display output
+        run: echo "${{ steps.curl-test.outputs.test-result }}"
+
       - name: 'Comment PR'
         uses: unsplash/comment-on-pr@master
         env:
