@@ -62,19 +62,16 @@ jobs:
         run: echo "::set-output name=foo::$(curl -sS localhost:50000/api/tasks)"
         # with:
           
-        #   result-encoding: string
-
-      - name: display output
-        run: echo $foo
-        env:
-          foo: ${{ steps.curl-result.outputs.foo }}
+        #   result-encoding: string    
 
       - name: 'Comment PR'
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          foo: ${{ steps.curl-result.outputs.foo }}
         with:
-          msg: '$foo'
+          msg: '${{ steps.curl-result.outputs.foo }}'
+          
 
           #          message: "${{steps.test-result.outputs.result}}"
 
