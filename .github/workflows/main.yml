@@ -3,7 +3,8 @@ name: ci
 
 on:
   push:
-#  pull_request:
+#  pull_request:  # This will trigger everytime push
+#  workflow_dispatch: # Allows manually trigger workflow after every push
 
 jobs:
   docker:
