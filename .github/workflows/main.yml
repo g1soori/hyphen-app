@@ -61,7 +61,7 @@ jobs:
           run: curl -sS localhost:50000/api/tasks
           result-encoding: string
 
-      - name: 'Comment PR'
-        uses: thollander/actions-comment-pull-request@master
-        with:
-          message: "${{steps.test-result.outputs.result}}"
+      # - name: 'Comment PR'
+      #   uses: thollander/actions-comment-pull-request@master
+      #   with:
+      #     message: "${{steps.test-result.outputs.result}}"
