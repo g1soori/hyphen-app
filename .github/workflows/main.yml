@@ -70,7 +70,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           foo: ${{ steps.curl-result.outputs.foo }}
         with:
-          msg: "$foo"
+          msg: $foo
           
 
           #          message: "${{steps.test-result.outputs.result}}"
