@@ -66,4 +66,3 @@ jobs:
           script: |
             const { repo: { owner, repo }  } = context;
             github.issues.createComment({ owner, repo, body: 'Hello world ! 👋' });
-#
