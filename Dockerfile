@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD [ "python", "./hyphen.py" ]
+CMD [ "python", "./hyphen-app.py" ]
