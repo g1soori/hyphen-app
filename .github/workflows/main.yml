@@ -1,78 +1,108 @@
 
-name: ci
+# name: ci
 
-on:
-#  push:
-  pull_request:  # This will trigger everytime push
-#  workflow_dispatch: # Allows manually trigger workflow after every push
+# on:
+# #  push:
+#   pull_request:  # This will trigger everytime push
+# #  workflow_dispatch: # Allows manually trigger workflow after every push
+
+# jobs:
+#   docker:
+#     runs-on: ubuntu-latest
+#     steps:
+#       -
+#         name: Checkout
+#         uses: actions/checkout@v2
+#       -
+#         name: Set up QEMU
+#         uses: docker/setup-qemu-action@v1
+#       -
+#         name: Set up Docker Buildx
+#         uses: docker/setup-buildx-action@v1
+#       # -
+#       #   name: Login to DockerHub
+#       #   uses: docker/login-action@v1 
+#       #   with:
+#       #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+#       #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+#       # -
+#       #   name: Build and push
+#       #   id: docker_build
+#       #   uses: docker/build-push-action@v2
+#       #   with:
+#       #     push: true
+#       #     tags: g1soori/hyphen-app:latest
+#       # -
+#       #   name: Image digest
+#       #   run: echo ${{ steps.docker_build.outputs.digest }}
+#       - 
+#         name: Display the path
+#         run: echo $PATH
+#         shell: bash
+#       -
+#         name: Build the docker image
+#         run: docker buildx build . --tag jeewan/hyphen --load
+#       -
+#         name: Run the app
+#         run: docker run -d -p 50000:5000 jeewan/hyphen
+#       - 
+#         name: List running image
+#         run: docker ps
+#       - 
+#         name: List docker images
+#         run: docker image ls
+#       -
+#         name: Running ports
+#         run: netstat -tnlp
+#       - 
+#         name: Test the image
+#         # uses: actions/github-script@v4
+#         id: curl-result
+#         # run: curl -sS localhost:50000/api/tasks
+#         # run: echo "::set-output name=test-result::BAR)"
+#         run:  echo "##[set-output name=foo;]$(hostname)"
+#         # with:
+          
+#         #   result-encoding: string
+
+#       - name: display output
+#         run: echo "${{ steps.curl-test.outputs.foo }}"
+
+#       - name: 'Comment PR'
+#         uses: unsplash/comment-on-pr@master
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           msg: '${{ steps.curl-test.outputs.foo }}'
+# #          message: "${{steps.test-result.outputs.result}}"
+
+
+name: test
+
+on: push
 
 jobs:
-  docker:
+
+  build:
     runs-on: ubuntu-latest
+ 
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      # -
-      #   name: Login to DockerHub
-      #   uses: docker/login-action@v1 
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # -
-      #   name: Build and push
-      #   id: docker_build
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     push: true
-      #     tags: g1soori/hyphen-app:latest
-      # -
-      #   name: Image digest
-      #   run: echo ${{ steps.docker_build.outputs.digest }}
-      - 
-        name: Display the path
-        run: echo $PATH
-        shell: bash
-      -
-        name: Build the docker image
-        run: docker buildx build . --tag jeewan/hyphen --load
-      -
-        name: Run the app
-        run: docker run -d -p 50000:5000 jeewan/hyphen
-      - 
-        name: List running image
-        run: docker ps
-      - 
-        name: List docker images
-        run: docker image ls
-      -
-        name: Running ports
-        run: netstat -tnlp
-      - 
-        name: Test the image
-        # uses: actions/github-script@v4
-        id: curl-result
-        # run: curl -sS localhost:50000/api/tasks
-        # run: echo "::set-output name=test-result::BAR)"
-        run:  echo "##[set-output name=foo;]$(hostname)"
-        # with:
-          
-        #   result-encoding: string
+    - name: Step 1
+      id: step1
+      run: echo "::set-output name=VAR1::Hamel"
 
-      - name: display output
-        run: echo "${{ steps.curl-test.outputs.foo }}"
+    - name: Step 2
+      id: step2
+      run: echo "::set-env name=VAR2::Husain"
 
-      - name: 'Comment PR'
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          msg: '${{ steps.curl-test.outputs.foo }}'
-#          message: "${{steps.test-result.outputs.result}}"
-#
+    - name: emit env
+      run: |
+       echo $VAR2
+       echo $VAR1
+        
+      env:
+        VAR1: ${{ steps.step1.outputs.VAR1 }}
+
+    - name: this should not run
+      run: echo "This should not run"
+      if: steps.step1.outputs.VAR1 == 'Lucy'
