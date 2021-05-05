@@ -46,25 +46,14 @@ jobs:
         name: Run the app
         run: docker run -d -p 50000:5000 jeewan/hyphen
       - 
-        name: List running image
-        run: docker ps
-      - 
-        name: List docker images
-        run: docker image ls
-      -
-        name: Running ports
-        run: netstat -tnlp
+        name: Sleep 10s
+        run: sleep 10
       - 
         name: Test the image
-        # uses: actions/github-script@v4
         id: curl-result
-        # run: curl -sS localhost:50000/api/tasks
         run: echo "::set-output name=foo::$(curl -sS localhost:50000/api/tasks)"
-        # with:
-          
-        #   result-encoding: string    
-
-      - name: 'Comment PR'
+      - 
+        name: 'Comment PR'
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -72,29 +61,3 @@ jobs:
         with:
           msg: '${{ steps.curl-result.outputs.foo }}'
           
-
-          #          message: "${{steps.test-result.outputs.result}}"
-
-
-
-# name: test
-
-# on: push
-
-# jobs:
-
-#   build:
-#     runs-on: ubuntu-latest
- 
-#     steps:
-#     - name: Step 1
-#       id: step1
-#       run: echo "::set-output name=VAR1::Hamel"
-
-
-#     - name: emit env
-#       run: |
-#        echo $VAR1
-        
-#       env:
-#         VAR1: ${{ steps.step1.outputs.VAR1 }}

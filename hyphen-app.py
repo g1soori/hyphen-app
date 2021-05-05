@@ -1,24 +1,18 @@
-
 from flask import Flask, request
 import json
 
-class AppService:
+class EmpService:
     
     tasks = [
         {
             'id': 1,
-            'name': "task10",
-            "description": "This is task 1"
+            'name': "Jeewan",
+            "role": "DevOps"
         },
         {
             "id": 2,
-            "name": "task2",
-            "description": "This is task 2"
-        },
-        {
-            "id": 3,
-            "name": "task3",
-            "description": "This is task 3"
+            "name": "John4",
+            "role": "Engineer"
         }
     ]
 
@@ -29,10 +23,8 @@ class AppService:
         return self.tasksJSON
 
 
-
-
 app = Flask(__name__)
-appService = AppService()
+empService = EmpService()
 
 
 @app.route('/')
@@ -42,7 +34,7 @@ def home():
 
 @app.route('/api/tasks')
 def tasks():
-    return appService.get_tasks()
+    return empService.get_tasks()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
