@@ -74,8 +74,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: '${{ steps.curl-test.outputs.foo }}'
-#          message: "${{steps.test-result.outputs.result}}"
+          msg: $foo
+        env:
+          foo: ${{ steps.curl-result.outputs.foo }}
+          #          message: "${{steps.test-result.outputs.result}}"
+
 
 
 # name: test
