@@ -57,8 +57,9 @@ jobs:
       - 
         name: Test the image
         # uses: actions/github-script@v4
-        # id: test-result
-        run: curl -sS localhost:50000/api/tasks
+        id: curl-result
+        # run: curl -sS localhost:50000/api/tasks
+        run: echo "::set-output name=test-result::$(curl -sS localhost:50000/api/tasks)"
         # with:
           
         #   result-encoding: string
@@ -68,6 +69,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: 'Hello World'
+          msg: "${{ steps.curl-test.outputs.test-result }}"
 #          message: "${{steps.test-result.outputs.result}}"
 #
