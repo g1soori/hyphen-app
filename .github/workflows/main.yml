@@ -69,6 +69,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          msg: "${{ steps.curl-test.outputs.test-result }}"
+          msg: '${{ steps.curl-test.outputs.test-result }}'
 #          message: "${{steps.test-result.outputs.result}}"
 #
