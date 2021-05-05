@@ -1,7 +1,7 @@
 from flask import Flask, request
 import json
 
-class AppService:
+class EmpService:
     
     tasks = [
         {
@@ -11,7 +11,7 @@ class AppService:
         },
         {
             "id": 2,
-            "name": "John3",
+            "name": "John4",
             "role": "Engineer"
         }
     ]
@@ -24,7 +24,7 @@ class AppService:
 
 
 app = Flask(__name__)
-appService = AppService()
+empService = EmpService()
 
 
 @app.route('/')
@@ -34,7 +34,7 @@ def home():
 
 @app.route('/api/tasks')
 def tasks():
-    return appService.get_tasks()
+    return empService.get_tasks()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
