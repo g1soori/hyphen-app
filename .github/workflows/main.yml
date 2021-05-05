@@ -68,10 +68,10 @@ jobs:
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          foo: ${{ steps.curl-result.outputs.foo }}
         with:
           msg: "$foo"
-        env:
-          foo: ${{ steps.curl-result.outputs.foo }}
+          
 
           #          message: "${{steps.test-result.outputs.result}}"
 
