@@ -65,7 +65,9 @@ jobs:
 
       - name: 'Comment PR'
         uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          message: 'Hello World'
+          msg: 'Hello World'
 #          message: "${{steps.test-result.outputs.result}}"
 #
