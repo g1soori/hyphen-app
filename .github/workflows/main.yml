@@ -85,7 +85,7 @@ jobs:
       #     password: $pwd
       -
         name: Docker login
-        run: docker login -u $user -p $pwd
+        run: docker login -u jeewansoori -p ${{ secrets.DOCKER_USER }}
         env:
           user: ${{ secrets.DOCKER_USER }}
           pwd: ${{ secrets.DOCKER_TOKEN }}
