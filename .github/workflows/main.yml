@@ -79,7 +79,7 @@ jobs:
         uses: docker/login-action@v1
         env:
           user: ${{ secrets.DOCKER_USER }}
-          pwd: ${{ secrets.DOCKER_TOKEN }}
+          pwd: ${{ secrets.DOCKER_PASSWORD }}
         with:
           username: $user
           password: $pwd
