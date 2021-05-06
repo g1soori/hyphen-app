@@ -81,8 +81,8 @@ jobs:
           user: ${{ secrets.DOCKER_USER }}
           pwd: ${{ secrets.DOCKER_TOKEN }}
         with:
-          username: ${{ user }}
-          password: ${{ pwd }}
+          username: $user
+          password: $pwd
       -
         name: Build and push
         uses: docker/build-push-action@v2
