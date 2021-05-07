@@ -2,8 +2,10 @@
 name: ci
 
 on:
-#  push:
-  pull_request_target:
+  push:
+    branches:
+      - master    # Merged PR will trigger a push to the master
+#  pull_request_target:
 #  pull_request:  # This will trigger everytime push
 #  workflow_dispatch: # Allows manually trigger workflow after every push
 
