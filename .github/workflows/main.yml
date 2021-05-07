@@ -88,16 +88,10 @@ jobs:
         with:
           username: jeewansoori
           password: '${{ secrets.DOCKER_TOKEN }}' 
-      # -
-      #   name: Docker login
-      #   run: docker login -u jeewansoori -p ${{ secrets.DOCKER_TOKEN }}
-      #   env:
-      #     DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       -
         name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: user/app:latest
+          tags: jeewansoori/hyphen-app:latest
