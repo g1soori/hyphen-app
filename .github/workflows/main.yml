@@ -2,7 +2,7 @@
 name: ci
 
 on:
-  push:
+#  push:
   pull_request_target:
 #  pull_request:  # This will trigger everytime push
 #  workflow_dispatch: # Allows manually trigger workflow after every push
@@ -88,4 +88,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: jeewansoori/hyphen-app:latest
+          tags: jeewansoori/hyphen-app
