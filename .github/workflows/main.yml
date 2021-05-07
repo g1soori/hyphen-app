@@ -86,7 +86,7 @@ jobs:
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
         with:
           username: jeewansoori
-          password: ${{ DOCKER_TOKEN }}
+          password: '${{ secrets.DOCKER_TOKEN }}'
       # -
       #   name: Docker login
       #   run: docker login -u jeewansoori -p ${{ secrets.DOCKER_TOKEN }}
