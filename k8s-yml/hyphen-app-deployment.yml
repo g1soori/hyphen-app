@@ -1,0 +1,26 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: hyphen-app
+  namespace: hyphen
+  labels:
+    app: hyphen-app
+spec:
+  selector:
+    matchLabels:
+      app: hyphen-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hyphen-app
+    spec:
+      containers:
+      - image: jeewansoori/hyphen-app
+        name: hyphen-app
+        ports:
+          - containerPort: 5000
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "200m" 
