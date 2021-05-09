@@ -35,7 +35,8 @@ jobs:
       - 
         name: Test the image
         id: curl-result
-        run: echo "::set-output name=foo::$(curl -sS localhost:50000/api/tasks)"
+        run: curl -sS localhost:50000/api/tasks
+        #run: echo "::set-output name=foo::$(curl -sS localhost:50000/api/tasks)"
       - 
         name: Comment the output
         uses: actions/github-script@0.9.0
@@ -45,7 +46,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Web Site Test Result Plane 🖌\`${{ steps.curl-result.outcome }}\`
+            const output = `#### Hyphen Web Test Result Plane 🖌\`${{ steps.curl-result.outcome }}\`
                         
             <details><summary>Show Output</summary>
             
