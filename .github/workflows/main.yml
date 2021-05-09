@@ -78,17 +78,40 @@ jobs:
         working-directory: k8s
       - 
         name: Run TF plan
-        id: tf-plan
+        id: plan
         #run: echo "::set-output name=tfplan::$(terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION)"
         run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
         working-directory: k8s  
-      - 
-        name: 'TF Comment PR'
-        uses: unsplash/comment-on-pr@master
+      # - 
+      #   name: 'TF Comment PR'
+      #   uses: unsplash/comment-on-pr@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     tfplan: ${{ steps.tf-plan.outputs.tfplan }}
+      #   with:
+      #     msg: '${{ steps.tf-plan.outcome }}'
+      
+      - uses: actions/github-script@0.9.0
+        if: github.event_name == 'pull_request'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tfplan: ${{ steps.tf-plan.outputs.tfplan }}
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          msg: '${{ steps.tf-plan.outcome }}'
-      
-      
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Plane 🖌\`${{ steps.plan.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            
+            <details><summary>Show Plan</summary>
+            
+            \`\`\`${process.env.PLAN}\`\`\`
+            
+            </details>
+            
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+              
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
