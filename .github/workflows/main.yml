@@ -86,6 +86,7 @@ jobs:
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tfplan: ${{ steps.tf-plan.outputs.tfplan }}
         with:
           msg: '${{ steps.tf-plan.outputs.tfplan }}'
       
