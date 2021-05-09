@@ -57,19 +57,19 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.15.3
-      - 
-        name: azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          allow-no-subscriptions: true
+      # - 
+      #   name: azure login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      #     allow-no-subscriptions: true
       -
         name: Checkout
         uses: actions/checkout@v2
       - 
         name: Run TF plan
         id: tf-pan
-        run: terraform init
+        run: ls -l; terraform init
         # run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
         working-directory: k8s
       # - 
