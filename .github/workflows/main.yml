@@ -47,16 +47,35 @@ jobs:
 
   terraform_plan:
     runs-on: ubuntu-latest
+    env:
+      RESOURCE_PREFIX: tf
+      LOCATION: southeastasia
     needs: docker_build
     steps:
+      - 
+        name: terraform setup
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.25
       - 
         name: azure login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           allow-no-subscriptions: true
+      -
+        name: Checkout
+        uses: actions/checkout@v2
       - 
-        name: terraform setup
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.12.25
+        name: Run TF plan
+        id: tf-pan
+        run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
+        working-directory: ./k8s
+      # - 
+      #   name: 'TF Comment PR'
+      #   uses: unsplash/comment-on-pr@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     foo: ${{ steps.tf-plan.outputs.foo }}
+      #   with:
+      #     msg: '${{ steps.curl-result.outputs.foo }}'
