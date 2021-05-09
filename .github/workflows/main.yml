@@ -66,13 +66,10 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
-      -
-        name: current dir
-        run: pwd;ls -lrt
       - 
         name: Run TF plan
         id: tf-pan
-        run: pwd; terraform init
+        run: terraform init
         # run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
         working-directory: k8s
       # - 
