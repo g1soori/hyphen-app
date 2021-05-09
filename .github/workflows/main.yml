@@ -50,11 +50,6 @@ jobs:
     env:
       RESOURCE_PREFIX: tf
       LOCATION: southeastasia
-      secrets.ARM_CLIENT_ID
-      secrets.ARM_CLIENT_SECRET
-      secrets.ARM_SUBSCRIPTION_ID
-      secrets.ARM_TENANT_ID
-
 
     #needs: docker_build
     steps:
