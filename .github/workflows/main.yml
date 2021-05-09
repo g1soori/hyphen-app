@@ -79,7 +79,8 @@ jobs:
       - 
         name: Run TF plan
         id: tf-pan
-        run: echo "::set-output name=tfplan::$(terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION)"
+        #run: echo "::set-output name=tfplan::$(terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION)"
+        run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
         working-directory: k8s  
       - 
         name: 'TF Comment PR'
@@ -88,5 +89,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tfplan: ${{ steps.tf-plan.outputs.tfplan }}
         with:
-          msg: '${{ steps.tf-plan.outputs.tfplan }}'
+          msg: '${{ steps.tf-plan.outcome }}'
+      
       
