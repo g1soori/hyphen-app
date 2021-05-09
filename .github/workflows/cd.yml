@@ -61,7 +61,7 @@ jobs:
       - 
         name: Run TF apply
         id: apply
-        run: terraform apply -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
+        run: terraform apply -auto-approve -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
         working-directory: k8s        
       - 
         uses: actions/github-script@0.9.0
