@@ -1,0 +1,7 @@
+
+name: tf-apply
+
+on:
+  push:
+    branches:
+      - master    # Merged PR will trigger a push to the master
