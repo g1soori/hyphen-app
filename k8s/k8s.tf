@@ -41,7 +41,7 @@ resource "kubernetes_deployment" "app" {
 
     strategy {
       type = "RollingUpdate"
-      rollingUpdate = {
+      rollingUpdate {
         maxSurge = 1        
         maxUnavailable = 1
       }
