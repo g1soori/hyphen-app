@@ -50,6 +50,12 @@ jobs:
     env:
       RESOURCE_PREFIX: tf
       LOCATION: southeastasia
+      secrets.ARM_CLIENT_ID
+      secrets.ARM_CLIENT_SECRET
+      secrets.ARM_SUBSCRIPTION_ID
+      secrets.ARM_TENANT_ID
+
+
     #needs: docker_build
     steps:
       - 
@@ -66,6 +72,13 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
+      -
+        name: set env
+        run: |
+          export ARM_CLIENT_ID={{ secrets.ARM_CLIENT_ID }}
+          export ARM_CLIENT_SECRET={{ secrets.ARM_CLIENT_SECRET }}
+          export ARM_SUBSCRIPTION_ID={{ secrets.ARM_SUBSCRIPTION_ID }}
+          export ARM_TENANT_ID={{ secrets.ARM_TENANT_ID }}
       - 
         name: Run TF plan
         id: tf-pan
