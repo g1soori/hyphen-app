@@ -9,7 +9,12 @@ spec:
   selector:
     matchLabels:
       app: hyphen-app
-  replicas: 3
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # how many pods we can add at a time
+      maxUnavailable: 1
   template:
     metadata:
       labels:
