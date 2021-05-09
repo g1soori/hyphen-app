@@ -7,43 +7,68 @@ on:
  pull_request:  # This will trigger everytime push
 
 jobs:
-  # docker_build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     -
-  #       name: Checkout
-  #       uses: actions/checkout@v2
-  #     -
-  #       name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v1
-  #     -
-  #       name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v1
-  #     - 
-  #       name: Display the path
-  #       run: echo $PATH
-  #       shell: bash
-  #     -
-  #       name: Build the docker image
-  #       run: docker buildx build . --tag jeewan/hyphen --load
-  #     -
-  #       name: Run the app
-  #       run: docker run -d -p 50000:5000 jeewan/hyphen
-  #     - 
-  #       name: Sleep 10s
-  #       run: sleep 10
-  #     - 
-  #       name: Test the image
-  #       id: curl-result
-  #       run: echo "::set-output name=foo::$(curl -sS localhost:50000/api/tasks)"
-  #     - 
-  #       name: 'Comment PR'
-  #       uses: unsplash/comment-on-pr@master
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         foo: ${{ steps.curl-result.outputs.foo }}
-  #       with:
-  #         msg: '${{ steps.curl-result.outputs.foo }}'
+  docker_build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - 
+        name: Display the path
+        run: echo $PATH
+        shell: bash
+      -
+        name: Build the docker image
+        run: docker buildx build . --tag jeewan/hyphen --load
+      -
+        name: Run the app
+        run: docker run -d -p 50000:5000 jeewan/hyphen
+      - 
+        name: Sleep 10s
+        run: sleep 10
+      - 
+        name: Test the image
+        id: curl-result
+        run: echo "::set-output name=foo::$(curl -sS localhost:50000/api/tasks)"
+      - 
+        name: Comment the output
+        uses: actions/github-script@0.9.0
+        if: github.event_name == 'pull_request'
+        env:
+          RESULTS: "Hyphen Webapp\n${{ steps.curl-result.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Web Site Test Result Plane 🖌\`${{ steps.curl-result.outcome }}\`
+                        
+            <details><summary>Show Output</summary>
+            
+            \`\`\`${process.env.RESULTS}\`\`\`
+            
+            </details>
+            
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+              
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+      # - 
+      #   name: 'Comment PR'
+      #   uses: unsplash/comment-on-pr@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     foo: ${{ steps.curl-result.outputs.foo }}
+      #   with:
+      #     msg: '${{ steps.curl-result.outputs.foo }}'
 
   terraform_plan:
     runs-on: ubuntu-latest
@@ -55,7 +80,7 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
-    #needs: docker_build
+    needs: docker_build
     steps:
       - 
         name: terraform setup
@@ -81,17 +106,9 @@ jobs:
         id: plan
         #run: echo "::set-output name=tfplan::$(terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION)"
         run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
-        working-directory: k8s  
-      # - 
-      #   name: 'TF Comment PR'
-      #   uses: unsplash/comment-on-pr@master
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     tfplan: ${{ steps.tf-plan.outputs.tfplan }}
-      #   with:
-      #     msg: '${{ steps.tf-plan.outcome }}'
-      
-      - uses: actions/github-script@0.9.0
+        working-directory: k8s        
+      - 
+        uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
