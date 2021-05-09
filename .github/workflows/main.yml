@@ -78,7 +78,7 @@ jobs:
         working-directory: k8s
       - 
         name: Run TF plan
-        id: tf-pan
+        id: tf-plan
         #run: echo "::set-output name=tfplan::$(terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION)"
         run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
         working-directory: k8s  
