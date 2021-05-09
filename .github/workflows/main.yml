@@ -49,7 +49,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: docker_build
     steps:
-      - uses: azure/login@v1
+      - 
+        name: azure login
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           allow-no-subscriptions: true
+      - 
+        name: terraform setup
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.12.25
