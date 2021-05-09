@@ -51,7 +51,6 @@ jobs:
             <details><summary>Show Output</summary>
             
             \`\`\`'${{ steps.curl-result.outputs.foo }}'\`\`\`
-            \`\`\`${env.WEB_OUTPUT}\`\`\`
             
             </details>
             
