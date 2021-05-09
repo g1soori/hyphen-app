@@ -67,19 +67,24 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
-      -
-        name: set env
-        run: |
-          export ARM_CLIENT_ID={{ secrets.ARM_CLIENT_ID }}
-          export ARM_CLIENT_SECRET={{ secrets.ARM_CLIENT_SECRET }}
-          export ARM_SUBSCRIPTION_ID={{ secrets.ARM_SUBSCRIPTION_ID }}
-          export ARM_TENANT_ID={{ secrets.ARM_TENANT_ID }}
+      # -
+      #   name: set env
+      #   run: |
+      #     export ARM_CLIENT_ID="{{ secrets.ARM_CLIENT_ID }}"
+      #     export ARM_CLIENT_SECRET={{ secrets.ARM_CLIENT_SECRET }}
+      #     export ARM_SUBSCRIPTION_ID={{ secrets.ARM_SUBSCRIPTION_ID }}
+      #     export ARM_TENANT_ID={{ secrets.ARM_TENANT_ID }}
       - 
         name: Run TF plan
         id: tf-pan
-        run: ls -l; terraform init
+        run: terraform init
         # run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
         working-directory: k8s
+        env:
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       # - 
       #   name: 'TF Comment PR'
       #   uses: unsplash/comment-on-pr@master
