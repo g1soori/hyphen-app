@@ -40,10 +40,10 @@ resource "kubernetes_deployment" "app" {
     replicas = 3
 
     strategy {
-      type= RollingUpdate
-      rollingUpdate {
-        maxSurge= 1        
-        maxUnavailable= 1
+      type = "RollingUpdate"
+      rollingUpdate = {
+        maxSurge = 1        
+        maxUnavailable = 1
       }
     }
     
