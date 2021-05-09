@@ -1,5 +1,5 @@
 
-name: ci
+name: CI
 
 on:
   # push:
@@ -44,3 +44,8 @@ jobs:
           foo: ${{ steps.curl-result.outputs.foo }}
         with:
           msg: '${{ steps.curl-result.outputs.foo }}'
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          allow-no-subscriptions: true
