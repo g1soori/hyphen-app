@@ -39,13 +39,13 @@ resource "kubernetes_deployment" "app" {
   spec {
     replicas = 3
 
-    strategy {
-      type = "RollingUpdate"
-      rollingUpdate {
-        maxSurge = 1        
-        maxUnavailable = 1
-      }
-    }
+    # strategy {
+    #   type = "RollingUpdate"
+    #   rollingUpdate {
+    #     maxSurge = 1        
+    #     maxUnavailable = 1
+    #   }
+    # }
     
 
     selector {
