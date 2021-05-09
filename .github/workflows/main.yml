@@ -2,7 +2,7 @@
 name: CI
 
 on:
-  # push:
+#  push:
 #  pull_request_target:
  pull_request:  # This will trigger everytime push
 
@@ -35,18 +35,15 @@ jobs:
       - 
         name: Test the image
         id: curl-result
-        #run: curl -sS localhost:50000/api/tasks
         run: echo "::set-output name=foo::$(curl -sS localhost:50000/api/tasks)"
       - 
         name: Comment the output
         uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
-        env:
-          WEB_OUTPUT: "Hyphen Webapp\n${{ steps.curl-result.outputs.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const output = `#### Hyphen Web Test Result Plane 🖌\`${{ steps.curl-result.outcome }}\`
+            const output = `#### Hyphen Web Test Result  🖌\`${{ steps.curl-result.outcome }}\`
                         
             <details><summary>Show Output</summary>
             
@@ -62,7 +59,7 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-      # - 
+      # - # This is another method for commenting on a PR
       #   name: 'Comment PR'
       #   uses: unsplash/comment-on-pr@master
       #   env:
@@ -71,65 +68,63 @@ jobs:
       #   with:
       #     msg: '${{ steps.curl-result.outputs.foo }}'
 
-  # terraform_plan:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     RESOURCE_PREFIX: tf
-  #     LOCATION: southeastasia
-  #     ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-  #     ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-  #     ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-  #     ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  terraform_plan:
+    runs-on: ubuntu-latest
+    env:
+      RESOURCE_PREFIX: tf
+      LOCATION: southeastasia
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
-  #   needs: docker_build
-  #   steps:
-  #     - 
-  #       name: terraform setup
-  #       uses: hashicorp/setup-terraform@v1
-  #       with:
-  #         terraform_version: 0.15.3
-  #     # - 
-  #     #   name: azure login
-  #     #   uses: azure/login@v1
-  #     #   with:
-  #     #     creds: ${{ secrets.AZURE_CREDENTIALS }}
-  #     #     allow-no-subscriptions: true
-  #     -
-  #       name: Checkout
-  #       uses: actions/checkout@v2
-  #     - 
-  #       name: Run TF initialize
-  #       run: terraform init
-  #       # run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
-  #       working-directory: k8s
-  #     - 
-  #       name: Run TF plan
-  #       id: plan
-  #       #run: echo "::set-output name=tfplan::$(terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION)"
-  #       run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
-  #       working-directory: k8s        
-  #     - 
-  #       uses: actions/github-script@0.9.0
-  #       if: github.event_name == 'pull_request'
-  #       env:
-  #         PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #         script: |
-  #           const output = `#### Terraform Plane 🖌\`${{ steps.plan.outcome }}\`
-  #           #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+    needs: docker_build
+    steps:
+      - 
+        name: terraform setup
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.3
+      # - 
+      #   name: azure login
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      #     allow-no-subscriptions: true
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      - 
+        name: Run TF initialize
+        run: terraform init
+        working-directory: k8s
+      - 
+        name: Run TF plan
+        id: plan
+        run: terraform plan -var resource_prefix=env.RESOURCE_PREFIX -var location=env.LOCATION
+        working-directory: k8s        
+      - 
+        uses: actions/github-script@0.9.0
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Plane 🖌\`${{ steps.plan.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
             
-  #           <details><summary>Show Plan</summary>
+            <details><summary>Show Plan</summary>
             
-  #           \`\`\`${process.env.PLAN}\`\`\`
+            \`\`\`${process.env.PLAN}\`\`\`
             
-  #           </details>
+            </details>
             
-  #           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+            *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
               
-  #           github.issues.createComment({
-  #             issue_number: context.issue.number,
-  #             owner: context.repo.owner,
-  #             repo: context.repo.repo,
-  #             body: output
-  #           })
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
