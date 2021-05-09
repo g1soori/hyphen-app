@@ -28,5 +28,9 @@ Create another container in same AKS cluster to test the connectivity within sam
 kubectl run -i --tty --rm debug --image=curlimages/curl:7.76.1 -- sh
 ```
 
+## Azure Kubernetes Cluster
+- This application is deployed on AKS
+- AKS was created using Terraform code which you can find here - https://github.com/g1soori/terraform/tree/master/stage/aks-adv_network
+
 ## Pending
 - Create Azure application GW to route external traffic to ingress resource
