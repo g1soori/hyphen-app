@@ -1,6 +1,14 @@
 # hyphen-app
 This is test app developed using python for testing a simple API call. 
 
+## Overall setup
+- This repo contains a simple python app with web API
+- GitHub Actions CI/CD pipelines are created for generating docker containera= and test the container
+- Once the container is tested, output will be displayed as a comment 
+- CD pipline trigger upon merging the PR
+- CD pipline will push the docker container to the docker hub and
+- Create Kubernetes resources in Azure Kubernetes cluster to deploy the python app
+
 ## List of files included in main folder
 - hyphen-app.py - Python script
 - Dockerfile - Build the docker image using docker file
@@ -19,3 +27,6 @@ Create another container in same AKS cluster to test the connectivity within sam
 ```
 kubectl run -i --tty --rm debug --image=curlimages/curl:7.76.1 -- sh
 ```
+
+## Pending
+- Create Azure application GW to route external traffic to ingress resource
