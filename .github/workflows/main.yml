@@ -45,6 +45,10 @@ jobs:
         with:
           msg: '${{ steps.curl-result.outputs.foo }}'
 
+  terraform_plan:
+    runs-on: ubuntu-latest
+    needs: docker_build
+    steps:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
