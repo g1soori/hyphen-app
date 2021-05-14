@@ -79,7 +79,7 @@ jobs:
             
             <details><summary>Show Plan</summary>
             
-            \`\`\`${process.env.AAPLY}\`\`\`
+            \`\`\`${process.env.APPLY}\`\`\`
             
             </details>
             
