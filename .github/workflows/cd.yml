@@ -2,13 +2,15 @@
 name: CD
 
 on:
-  push:
-    branches:
-      - master    # Merged PR will trigger a push to the master
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created, edited, deleted]
 
 jobs:
   docker_push:
     name: Push Docker image to Docker Hub
+    if: contains(github.event.comment.body, 'apply')
     runs-on: ubuntu-latest
     steps:
       -
@@ -36,6 +38,7 @@ jobs:
 
   tf_apply:
     name: Run Terraform apply
+    if: contains(github.event.comment.body, 'apply')
     runs-on: ubuntu-latest
     needs: docker_push
     env:
@@ -65,7 +68,7 @@ jobs:
         working-directory: k8s        
       - 
         uses: actions/github-script@0.9.0
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || ${{ success() }} || ${{ failure() }}
         env:
           APPLY: "terraform\n${{ steps.apply.outputs.stdout }}"
         with:
@@ -88,3 +91,9 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
+      - 
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.14.1"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: ""

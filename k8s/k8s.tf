@@ -131,3 +131,10 @@ resource "kubernetes_ingress" "app" {
     }
   }
 }
+
+data "kubernetes_service" "ingress" {
+  metadata {
+    name = "nginx-ingress-controller"
+    namespace = "ingress-nginx"
+  }
+}
