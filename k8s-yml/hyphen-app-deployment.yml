@@ -22,6 +22,10 @@ spec:
     spec:
       containers:
       - image: jeewansoori/hyphen-app
+        imagePullPolicy: Always
+        env:
+        - name: tag_date
+          value: 'c'
         name: hyphen-app
         ports:
           - containerPort: 5000
