@@ -63,8 +63,15 @@ resource "kubernetes_deployment" "app" {
 
       spec {
         container {
-          image = "jeewansoori/hyphen-app"
-          name  = "hyphen-app"
+          image           = "jeewansoori/hyphen-app"
+          name            = "hyphen-app"
+
+          image_pull_policy = "Always"
+
+          env {
+            name = "tag_date"
+            value = "${timestamp()}"
+          }
           
           port {
             container_port = 5000
