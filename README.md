@@ -1,5 +1,5 @@
-# hyphen-app
-This is test app developed using python for testing a simple API call. 
+# web-app
+This is test app developed using python for testing a simple API call. And also demostrate the CI/CD process for deploying app on Kubernetes
 
 ## Overall setup
 - This repo contains a simple python app with web API
